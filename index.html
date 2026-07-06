@@ -1,1 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time till I can drive</title>
 
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+}
+
+.container{
+    padding:40px;
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:40px;
+}
+
+#countdown{
+    display:flex;
+    gap:25px;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.box{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    padding:25px;
+    border-radius:15px;
+    min-width:130px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.number{
+    font-size:3rem;
+    font-weight:bold;
+}
+
+.label{
+    margin-top:10px;
+    font-size:1rem;
+    text-transform:uppercase;
+    color:#d1d5db;
+}
+
+.finished{
+    font-size:3rem;
+    color:#4ade80;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Time till I can drive</h1>
+
+    <div id="countdown">
+        <div class="box">
+            <div id="days" class="number">0</div>
+            <div class="label">Days</div>
+        </div>
+
+        <div class="box">
+            <div id="hours" class="number">0</div>
+            <div class="label">Hours</div>
+        </div>
+
+        <div class="box">
+            <div id="minutes" class="number">0</div>
+            <div class="label">Minutes</div>
+        </div>
+
+        <div class="box">
+            <div id="seconds" class="number">0</div>
+            <div class="label">Seconds</div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+const targetDate = new Date("February 26, 2028 00:00:00").getTime();
+
+function updateCountdown(){
+
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if(distance <= 0){
+        document.querySelector(".container").innerHTML =
+        `<div class="finished">The wait is over!</div>`;
+        clearInterval(timer);
+        return;
+    }
+
+    const days = Math.floor(distance / (1000*60*60*24));
+    const hours = Math.floor((distance % (1000*60*60*24))/(1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60))/(1000*60));
+    const seconds = Math.floor((distance % (1000*60))/1000);
+
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent = hours.toString().padStart(2,'0');
+    document.getElementById("minutes").textContent = minutes.toString().padStart(2,'0');
+    document.getElementById("seconds").textContent = seconds.toString().padStart(2,'0');
+}
+
+updateCountdown();
+
+const timer = setInterval(updateCountdown,1000);
+
+</script>
+
+</body>
+</html>
